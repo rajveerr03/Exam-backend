@@ -18,9 +18,10 @@ let login = async (req, res) => {
                 message: 'Invalid email or password'
             });
         }
-        console.log(user)
+        // console.log(user)
         if( user.role !== "admin"){
             const active = await user.action;
+            console.log(active)
             if (active !== "Accepted") {
                 return res.send({
                     success: false,
@@ -28,15 +29,15 @@ let login = async (req, res) => {
                 });
             }
             
+        }
             
             // const otp = 123456;
             const otp = generateOTP();
             const expires = Date.now() + 5 * 60 * 1000;
             
-            otpStore[email] = { otp, expires };
             // console.log(user)
+            otpStore[email] = { otp, expires };
             await sendOTPEmail(email, otp, user.name);
-        }
             
         res.send({
             success: true,
