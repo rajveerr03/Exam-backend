@@ -27,17 +27,17 @@ let login = async (req, res) => {
                     message: "User is not active",
                 });
             }
+            
+            
+            // const otp = 123456;
+            const otp = generateOTP();
+            const expires = Date.now() + 5 * 60 * 1000;
+            
+            otpStore[email] = { otp, expires };
+            // console.log(user)
+            await sendOTPEmail(email, otp, user.name);
         }
-
-
-        // const otp = 123456;
-        const otp = generateOTP();
-        const expires = Date.now() + 5 * 60 * 1000;
-
-        otpStore[email] = { otp, expires };
-        // console.log(user)
-        await sendOTPEmail(email, otp, user.name);
-
+            
         res.send({
             success: true,
             message: "OTP sent to email"
